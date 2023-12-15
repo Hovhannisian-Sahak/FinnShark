@@ -2,6 +2,7 @@ import React, { SyntheticEvent } from "react";
 import Card from "../Card/Card";
 import { v4 as uuidv4 } from "uuid";
 import { CompanySearch } from "../../company";
+import Spinner from "../Spinner/Spinner";
 interface Props {
   searchResult: CompanySearch[];
   onPortfolioCreate: (e: SyntheticEvent) => void;
@@ -25,7 +26,7 @@ const CardList: React.FC<Props> = ({
           );
         })
       ) : (
-        <h1>No Results</h1>
+        <Spinner />
       )}
     </>
   );

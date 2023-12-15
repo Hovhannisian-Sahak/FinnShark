@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
+import { GrMoney } from "react-icons/gr";
+import { MdAccountBalance } from "react-icons/md";
+import { BsCashStack } from "react-icons/bs";
 type Props = {};
 
 const SideBar = (props: Props) => {
@@ -24,21 +27,21 @@ const SideBar = (props: Props) => {
               to="income-statement"
               className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt--1 pb-4 no-underline "
             >
-              <FaHome />
+              <GrMoney />
               <h6 className="ml-3">Income Statement</h6>
             </Link>
             <Link
               to="balance-sheet"
               className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt--1 pb-4 no-underline "
             >
-              <FaHome />
+              <MdAccountBalance />
               <h6 className="ml-3">Balance Sheet</h6>
             </Link>
             <Link
               to="cashflow-statement"
               className="flex md:min-w-full text-blueGray-500 text-medium uppercase font-bold block pt--1 pb-4 no-underline "
             >
-              <FaHome />
+              <BsCashStack />
               <h6 className="ml-3">Cashflow Statement</h6>
             </Link>
           </div>
