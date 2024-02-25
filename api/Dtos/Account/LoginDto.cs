@@ -7,7 +7,6 @@ namespace api.Dtos.Account
         [Required]
         public string? Username { get; set; }
         [Required]
-        [EmailAddress]
         public string? Password { get; set; }
 
     }

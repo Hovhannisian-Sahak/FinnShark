@@ -16,11 +16,13 @@ namespace api.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IStockRepository _stockRepo;
         private readonly IPortfolioRepository _portfolioRepo;
-        public PortfolioController(UserManager<AppUser> userManager, IStockRepository stockRepo, IPortfolioRepository portfolioRepo)
+        private readonly IFMPService _fmpservice;
+        public PortfolioController(UserManager<AppUser> userManager, IStockRepository stockRepo, IPortfolioRepository portfolioRepo, IFMPService fmpservice)
         {
             _stockRepo = stockRepo;
             _userManager = userManager;
             _portfolioRepo = portfolioRepo;
+            _fmpservice = fmpservice;
         }
         [HttpGet]
         [Authorize]
@@ -38,6 +40,18 @@ namespace api.Controllers
             var username = User.GetUsername();
             var appUser = await _userManager.FindByNameAsync(username);
             var stock = await _stockRepo.GetStockBySymbol(symbol);
+            if (stock == null)
+            {
+                stock = await _fmpservice.FindStockBySymbolAsync(symbol);
+                if (stock == null)
+                {
+                    return BadRequest("stock does not exist");
+                }
+                else
+                {
+                    await _stockRepo.CreateStock(stock);
+                }
+            }
             if (stock == null)
             {
                 return BadRequest("Stock not found");
@@ -63,6 +77,24 @@ namespace api.Controllers
             {
                 return StatusCode(204);
             }
+        }
+        [HttpDelete]
+        [Authorize]
+        public async Task<ActionResult> DeletePortfolio(string symbol)
+        {
+            var username = User.GetUsername();
+            var appUser = await _userManager.FindByNameAsync(username);
+            var userPortfolio = await _portfolioRepo.GetUserPortfolio(appUser);
+            var filteredStock = userPortfolio.Where(s => s.Symbol.ToLower() == symbol.ToLower());
+            if (filteredStock.Count() == 1)
+            {
+                await _portfolioRepo.DeleteAsync(appUser, symbol);
+            }
+            else
+            {
+                return BadRequest("Stock not in your portfolio");
+            }
+            return Ok();
         }
     }
 }

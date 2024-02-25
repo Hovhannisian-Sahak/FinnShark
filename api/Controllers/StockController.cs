@@ -26,8 +26,8 @@ namespace api.Controllers
         public async Task<ActionResult<List<Stock>>> GetAll([FromQuery] QueryObject query)
         {
             var stocks = await _stockRepository.GetStocks(query);
-            var stockDto = stocks.Select(s => s.ToStockDto());
-            return Ok(stocks);
+            var stockDto = stocks.Select(s => s.ToStockDto()).ToList();
+            return Ok(stockDto);
         }
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Stock>> GetStock([FromRoute] int id)

@@ -33,6 +33,21 @@ namespace api.Mappers
 
 
         }
+        public static Stock ToStockFromFMPService(this FMPStock fmpstock)
+        {
+            return new Stock
+            {
+                Symbol = fmpstock.symbol,
+                CompanyName = fmpstock.companyName,
+                Purchase = (decimal)fmpstock.price,
+                LastDiv = (decimal)fmpstock.lastDiv,
+                Industry = fmpstock.industry,
+                MarketCap = fmpstock.mktCap,
+
+            };
+
+
+        }
 
     }
 }
