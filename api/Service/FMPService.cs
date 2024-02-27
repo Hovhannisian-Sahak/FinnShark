@@ -1,5 +1,6 @@
 using api.Dtos.Stock;
 using api.Interface;
+using api.Mappers;
 using api.Models;
 using Newtonsoft.Json;
 namespace api.Service
@@ -25,7 +26,7 @@ namespace api.Service
                     var stock = tasks[0];
                     if (stock != null)
                     {
-                        return stock.ToStockFromFMP();
+                        return stock.ToStockFromFMPService();
                     }
                     return null;
                 }
