@@ -9,6 +9,7 @@ export const loginApi = async (username: string, password: string) => {
       username,
       password,
     });
+    console.log(data);
     return data;
   } catch (error) {
     errorHandler(error);
@@ -25,6 +26,8 @@ export const registerApi = async (
       username,
       password,
     });
+    
+    console.log(data);
     return data;
   } catch (error) {
     errorHandler(error);

@@ -81,7 +81,7 @@ const SearchPage = (props: Props) => {
           handleSearchChange={handleSearchChange}
         />
         <ListPortfolio
-          portfolioValues={portfolioValues}
+          portfolioValues={portfolioValues!}
           onPortfolioDelete={onPortfolioDelete}
         />
         <CardList

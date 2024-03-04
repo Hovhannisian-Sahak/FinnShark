@@ -14,14 +14,15 @@ const validation = Yup.object().shape({
   title: Yup.string().required("title is required"),
   content: Yup.string().required("content is required"),
 });
-const {
-  register,
-  handleSubmit,
-  formState: { errors },
-} = useForm<commentFormInputs>({
-  resolver: yupResolver(validation),
-});
+
 const StockCommentForm = ({ symbol, handleComment }: Props) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<commentFormInputs>({
+    resolver: yupResolver(validation),
+  });
   return (
     <form className="mt-4 ml-4" onSubmit={handleSubmit(handleComment)}>
       <input

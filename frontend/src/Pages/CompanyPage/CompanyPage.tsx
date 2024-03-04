@@ -6,7 +6,7 @@ import SideBar from "../../Components/SideBar/SideBar";
 import CompanyDashboard from "../../Components/CompanyDashboard/CompanyDashboard";
 import Tile from "../../Components/Tile/Tile";
 import Spinner from "../../Components/Spinner/Spinner";
-import CompFinder from "../../Components/CompFinder/CompFinder";
+
 import TenKFinder from "../../Components/TenKFinder/TenKFinder";
 
 type Props = {};
@@ -14,29 +14,33 @@ type Props = {};
 const CompanyPage = (props: Props) => {
   const [company, setCompany] = useState<CompanyProfile>();
   let { ticker } = useParams();
+  console.log(ticker);
   useEffect(() => {
     const fetchCompanyPage = async () => {
       const result = await getCompanyProfile(ticker!);
-      setCompany(result?.data[0]);
+      console.log(result);
+      setCompany(result?.data);
     };
     fetchCompanyPage();
   }, []);
-  console.log(company);
+  console.log(company?.symbol);
   return (
     <div>
-      {company ? (
+      {company ? ( // Check if company array has elements
         <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
           <SideBar />
           <CompanyDashboard ticker={ticker!}>
-            <Tile title="Company Name" subTitle={company.companyName} />
-            <Tile title="Price" subTitle={"$" + company.price.toString()} />
+            <Tile
+              title="Company Name"
+              subTitle={company?.profile?.companyName}
+            />
+            <Tile title="Price" subTitle={"$" + company?.profile?.price} />
+            <Tile title="Sector" subTitle={company?.profile?.sector} />
 
-            <Tile title="Sector" subTitle={company.sector} />
-            {/* <p className="bg-white shadow rounded text-medium text-gray-900 p-3 mt-1 m-4">
-              {company.description}
-            </p> */}
-            <CompFinder ticker={company?.symbol} />
-            <TenKFinder ticker={company?.symbol} />
+            <TenKFinder ticker={company.symbol} />
+            <p className="bg-white shadow rounded text-medium font-medium text-gray-900 p-3 mt-1 m-4">
+              {company?.profile?.description}
+            </p>
           </CompanyDashboard>
         </div>
       ) : (

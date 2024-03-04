@@ -13,9 +13,25 @@ type RegisterFormsInputs = {
 };
 
 const validation = Yup.object().shape({
-  email: Yup.string().required("Email is required"),
-  userName: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  userName: Yup.string()
+    .min(3, "Username must be at least 3 characters")
+    .matches(
+      /^[a-zA-Z0-9_]+$/,
+      "Username must contain only letters, numbers, or underscores"
+    )
+    .required("Username is required"),
+  password: Yup.string()
+    .min(12, "Passwords must be at least 12 characters.")
+    .matches(/[a-zA-Z]/, "Passwords must have at least one letter.")
+    .matches(/[0-9]/, "Passwords must have at least one digit.")
+    .matches(
+      /[^a-zA-Z0-9]/,
+      "Passwords must have at least one non-alphanumeric character."
+    )
+    .required("Password is required."),
 });
 
 const RegisterPage = (props: Props) => {
@@ -35,7 +51,7 @@ const RegisterPage = (props: Props) => {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mb-20 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Sign in to your account
+              Sign up
             </h1>
             <form
               className="space-y-4 md:space-y-6"
@@ -56,7 +72,7 @@ const RegisterPage = (props: Props) => {
                   {...register("email")}
                 />
                 {errors.email ? (
-                  <p className="text-white">{errors.email.message}</p>
+                  <p className="text-red">{errors.email.message}</p>
                 ) : (
                   ""
                 )}
@@ -76,7 +92,7 @@ const RegisterPage = (props: Props) => {
                   {...register("userName")}
                 />
                 {errors.userName ? (
-                  <p className="text-white">{errors.userName.message}</p>
+                  <p className="text-red">{errors.userName.message}</p>
                 ) : (
                   ""
                 )}
@@ -96,7 +112,7 @@ const RegisterPage = (props: Props) => {
                   {...register("password")}
                 />
                 {errors.password ? (
-                  <p className="text-white">{errors.password.message}</p>
+                  <p className="text-red">{errors.password.message}</p>
                 ) : (
                   ""
                 )}
@@ -113,15 +129,15 @@ const RegisterPage = (props: Props) => {
                 type="submit"
                 className="w-full text-white bg-lightGreen hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
-                Sign in
+                Sign up
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?{" "}
+                have an account already?{" "}
                 <a
-                  href="#"
+                  href="login"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
-                  Sign up
+                  Sign in
                 </a>
               </p>
             </form>

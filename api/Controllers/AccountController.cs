@@ -29,6 +29,19 @@ namespace api.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                 var existingUsername = await _userManager.FindByNameAsync(registerDto.Username);
+        if (existingUsername != null)
+        {
+             return StatusCode(409, "Username already exists");
+        }
+
+        
+        var existingEmail = await _userManager.FindByEmailAsync(registerDto.Email);
+        if (existingEmail != null)
+        {
+            return StatusCode(409, "Email already exists");
+            
+        }
                 var appUser = new AppUser
                 {
                     UserName = registerDto.Username,

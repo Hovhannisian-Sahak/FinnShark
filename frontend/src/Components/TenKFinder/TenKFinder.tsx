@@ -10,15 +10,16 @@ interface Props {
 
 const TenKFinder = ({ ticker }: Props) => {
   const [companyData, setCompanyData] = useState<CompanyTenK[]>();
+  console.log(ticker);
   useEffect(() => {
     const fetchTenKData = async () => {
       const res = await getTenK(ticker);
+      console.log(res);
       setCompanyData(res?.data);
     };
     fetchTenKData();
-    console.log(companyData);
   }, []);
-
+  console.log(companyData?.slice(0, 5));
   return (
     <div className="inline-flex rounded-md shadow-sm m-4">
       {companyData ? (

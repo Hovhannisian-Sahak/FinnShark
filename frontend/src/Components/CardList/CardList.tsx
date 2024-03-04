@@ -26,7 +26,9 @@ const CardList: React.FC<Props> = ({
           );
         })
       ) : (
-        <Spinner />
+        <p className="mb-3 mt-3 text-xl font-semibold text-center md:text-xl">
+          No results for searching companies!
+        </p>
       )}
     </>
   );

@@ -25,9 +25,11 @@ export const UserProvider = ({ children }: Props) => {
     const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
     if (user && token) {
+      console.log(user);
+      console.log(token);
       setUser(JSON.parse(user));
       setToken(token);
-      axios.defaults.headers.common["Authorization"] = "Bearer" + token;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
     setIsReady(true);
   }, []);
@@ -39,39 +41,46 @@ export const UserProvider = ({ children }: Props) => {
     await registerApi(username, email, password)
       .then((res) => {
         if (res) {
+          console.log(res);
           localStorage.setItem("token", res?.data?.token);
           const UserObj = {
             username: res?.data?.username,
             email: res?.data?.email,
           };
+          console.log(UserObj);
           localStorage.setItem("user", JSON.stringify(UserObj));
-          setUser(UserObj!);
+          setUser(UserObj);
           setToken(res?.data?.token || "");
+          console.log(token);
+          console.log(user);
           toast.success("Successfully signed up!");
           navigate("/search");
         }
       })
-      .catch((e) => toast.warning("Server error occured"));
+      .catch((e) => toast.warning(e.message));
   };
   const loginUser = async (username: string, password: string) => {
     await loginApi(username, password)
       .then((res) => {
         if (res) {
+          console.log(res);
           localStorage.setItem("token", res?.data?.token);
           const UserObj = {
             username: res?.data?.username,
             email: res?.data?.email,
           };
+          console.log(UserObj);
           localStorage.setItem("user", JSON.stringify(UserObj));
           setUser(UserObj!);
           setToken(res?.data?.token || "");
-          toast.success("Successfully signed up!");
+          toast.success("Successfully logged in!");
           navigate("/search");
         }
       })
-      .catch((e) => toast.warning("Server error occured"));
+      .catch((e) => toast.warning(e.message));
   };
   const isLoggedIn = () => {
+    console.log(user);
     return !!user;
   };
   const logout = () => {

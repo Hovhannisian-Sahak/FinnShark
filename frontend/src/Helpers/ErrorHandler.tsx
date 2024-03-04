@@ -18,7 +18,7 @@ export const errorHandler = (error: any) => {
       toast.warning("please login");
       window.history.pushState({}, "LoginPage", "/login");
     } else if (err) {
-      toast.warning(err?.data);
+      toast.warning(err?.data.message);
     }
   }
 };

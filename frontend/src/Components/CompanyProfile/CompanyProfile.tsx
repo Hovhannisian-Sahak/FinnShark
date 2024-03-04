@@ -8,6 +8,7 @@ import {
   formatLargeNonMonetaryNumber,
   formatRatio,
 } from "../../Helpers/NumberFormatting";
+import StockComment from "../StockComment/StockComment";
 
 type Props = {};
 const tableConfig = [
@@ -86,7 +87,9 @@ const CompanyProfile = (props: Props) => {
     const fetchCompanyKeyMetrics = async () => {
       try {
         const value = await getKeyMetrics(ticker);
+        console.log(value?.data[0]);
         setCompanyData(value?.data[0]);
+        console.log(companyData);
       } catch (error) {
         console.log(error);
       }
